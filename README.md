@@ -8,8 +8,8 @@
 22.04
 
 # 명령어 수행화면
-./install_docker.sh -h\n
-Usage: ./install_docker.sh [Options]\n
-Options:\n
--i, --install   : Install docker\n
--r, --remove    : Remove docker\n
+./install_docker.sh -h</br>
+Usage: ./install_docker.sh [Options]</br>
+Options:</br>
+-i, --install   : Install docker</br>
+-r, --remove    : Remove docker</br>
