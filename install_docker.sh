@@ -104,6 +104,18 @@ main() {
     [ $# -eq 0 ] && help_usage
     set_opts "$@"
 
+    OS_NAME=$(grep '^NAME=' /etc/os-release |cut -d'=' -f2)
+    OS_VERSION=$(grep '^VERSION_ID=' /etc/os-release |cut -d'=' -f2)
+
+    case ${OS_NAME} in
+        *centos* | *Centos* | *CentOS* | *rocky* | *Rocky* )
+            PKG_CMD=('yum' 'rpm' "yum entos-release-openstack")
+        ;;
+        *ubuntu* | *Ubuntu* )
+            PKG_CMD=('apt' 'dpkg' "add-apt-repository cloud-archive")
+        ;;
+    esac
+
     if [ ${MODE} == "install" ]; then
         install_docker_pre
         if [ $? -eq 0 ]; then
