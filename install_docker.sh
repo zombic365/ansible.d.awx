@@ -4,7 +4,7 @@
 # https://docs.docker.com/engine/install/ubuntu/
 
 SCRIPT_DIR=$(dirname $(realpath $0))
-echo ${SCRIPT_DIR}
+
 for _FILE in $(ls ${SCRIPT_DIR}/lib); do
     source ${SCRIPT_DIR}/lib/${_FILE}
 done
@@ -29,11 +29,11 @@ function set_opts() {
 
     while true; do
         case "$1" in
-            -i | --install ) MODE="install" ;;
-            -r | --remove )  MODE="remove" ;;
-            -h | --help ) help_usage ;;
-            --) shift ; break ;;
-            *) help_usage ;;
+            -i | --install ) MODE="install" ; shift   ;;
+            -r | --remove )  MODE="remove"  ; shift   ;;
+            -h | --help ) help_usage                  ;;
+            --) shift ; break                         ;;
+            *) help_usage                             ;;
         esac
     done
 
