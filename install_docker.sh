@@ -52,7 +52,8 @@ function uninstall_docker() {
 
 function install_docker_pre() {
     check_pkg "ca-certificates" "curl"
-    if [ $? -eq 0 ]; then
+
+    if [ ! -f /etc/apt/keyrings/docker.asc ]; then
         _cmd_list=(
             "install -m 0755 -d /etc/apt/keyrings"
             "curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
@@ -67,7 +68,7 @@ function install_docker_pre() {
             fi
         done
     else
-        exit 1
+        log_msg "SKIP" "Already docker.asc"
     fi
 
     if [ ! -f /etc/apt/sources.list.d/docker.list ]; then
