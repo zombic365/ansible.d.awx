@@ -75,30 +75,34 @@ function install_docker_pre() {
         run_cmd "cat <<EOF >/etc/apt/sources.list.d/docker.list
 deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable
 EOF"
-    else
-        exit 1
-    fi
-
-    run_cmd "apt-get update"
-    if [ $? -eq 0 ]; then
-        return 0
-    else
-        exit 1
+        if [ $? -eq 0 ]; then
+            run_cmd "apt-get update"
+            if [ $? -eq 0 ]; then
+                return 0
+            else
+                exit 1
+            fi
+        else
+            exit 1
+        fi
     fi
 }
 
 function install_docker() {
-    check_pkg "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
-    if [ $? -eq 0 ]; then
-        enable_svc "docker"
-        if [ $? -eq 0 ]; then
-            return 0
-        else
-            exit 1
-        fi
-    else
-        exit 1
-    fi
+    enable_svc "docker"
+    # check_pkg "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
+    # # docker-ce dependency에 아래 Package가 포함되는걸로 보임
+    # # "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
+    # if [ $? -eq 0 ]; then
+    #     enable_svc "docker"
+    #     if [ $? -eq 0 ]; then
+    #         return 0
+    #     else
+    #         exit 1
+    #     fi
+    # else
+    #     exit 1
+    # fi
 }
 
 main() {
