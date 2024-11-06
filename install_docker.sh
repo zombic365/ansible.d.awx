@@ -4,7 +4,7 @@
 # https://docs.docker.com/engine/install/ubuntu/
 
 SCRIPT_DIR=$(dirname $(realpath $0))
-
+echo ${SCRIPT_DIR}
 for _FILE in $(ls ${SCRIPT_DIR}/lib); do
     source ${SCRIPT_DIR}/lib/${_FILE}
 done
@@ -29,16 +29,8 @@ function set_opts() {
 
     while true; do
         case "$1" in
-            -i | --install )
-                pre_install_docker
-                if [ $? -eq 0 ]; then
-                    install_docker
-                else
-                    Logging "CRT" "Install docker check fail"
-                    exit 1
-                fi
-            ;;
-            -r | --remove ) remove_docker ; exit 0 ;;
+            -i | --install ) MODE="install" ;;
+            -r | --remove )  MODE="remove" ;;
             -h | --help ) help_usage ;;
             --) shift ; break ;;
             *) help_usage ;;
